@@ -19,3 +19,6 @@
 # Maven stuff:
 /lib/nbproject/private/
 /lib/build/
+
+# generated stuff:
+/src/com/t_oster/visicut/gui/resources/splash.png

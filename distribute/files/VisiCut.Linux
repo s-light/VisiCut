@@ -7,4 +7,10 @@ port=${DISPLAY##*:}
 port=${port%.*}
 # add it to the instance-port
 let port=port+6543
-java -Xms256m -Xmx1024m -jar "$DIR/Visicut.jar" --singleinstanceport $port "$@"
+# For USB serial devices like the GoldCut ABH721, we need JNA. If the gui hangs while 'connecting', 
+# and you have this error message on the console:
+# java.lang.UnsatisfiedLinkError: Can't obtain updateLastError method for class com.sun.jna.Native
+# then try to add -Djna.nosys=true
+opts=
+opts=-Djna.nosys=true
+java $opts -Xms256m -Xmx1024m -jar "$DIR/Visicut.jar" --singleinstanceport $port "$@"
