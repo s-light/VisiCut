@@ -378,7 +378,7 @@ public class MainView extends javax.swing.JFrame
       this.jmExtras.setVisible(false);
     }
     this.refreshExampleMenu();
-    //initialize states coorectly
+    //initialize states correctly
     this.visicutModel1PropertyChange(new java.beans.PropertyChangeEvent(visicutModel1, VisicutModel.PROP_SELECTEDLASERDEVICE, null, null));
     this.visicutModel1PropertyChange(new java.beans.PropertyChangeEvent(visicutModel1, VisicutModel.PROP_SELECTEDPART, null, null));
     this.visicutModel1PropertyChange(new java.beans.PropertyChangeEvent(visicutModel1, VisicutModel.PROP_PREFERENCES, null, null));
@@ -655,6 +655,7 @@ public class MainView extends javax.swing.JFrame
         mappingTabbedPane = new javax.swing.JTabbedPane();
         mappingPanel = new com.t_oster.visicut.gui.mapping.MappingPanel();
         positionPanel = new com.t_oster.uicomponents.PositionPanel();
+        laserBedPanel = new com.t_oster.uicomponents.LaserBedPanel();
         propertyPanelContainer = new javax.swing.JScrollPane();
         propertiesPanel = new com.t_oster.visicut.gui.propertypanel.PropertiesPanel();
         btAddMaterial = new javax.swing.JButton();
@@ -830,6 +831,10 @@ public class MainView extends javax.swing.JFrame
         propertyPanelContainer.setViewportView(propertiesPanel);
 
         mappingTabbedPane.addTab(resourceMap.getString("propertyPanelContainer.TabConstraints.tabTitle"), propertyPanelContainer); // NOI18N
+
+	// spacer ? so that this tab is right aligned? 
+        laserBedPanel.setName("laserBedPanel"); // NOI18N
+        mappingTabbedPane.addTab(resourceMap.getString("laserBedPanel.TabConstraints.tabTitle"), laserBedPanel); // NOI18N
 
         btAddMaterial.setIcon(PlatformIcon.get(PlatformIcon.ADD));
         btAddMaterial.setName("btAddMaterial"); // NOI18N
@@ -3270,6 +3275,7 @@ private void projectorActiveMenuItemActionPerformed(java.awt.event.ActionEvent e
 	private javax.swing.JMenuItem exportGcodeMenuItem;
     private javax.swing.JMenu optionsMenu;
     private com.t_oster.uicomponents.PositionPanel positionPanel;
+    private com.t_oster.uicomponents.LaserBedPanel laserBedPanel;
     private com.t_oster.visicut.gui.beans.PreviewPanel previewPanel;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JCheckBoxMenuItem projectorActiveMenuItem;

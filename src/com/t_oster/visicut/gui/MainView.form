@@ -705,6 +705,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="laserCutterComboBoxActionPerformed"/>
               </Events>
             </Component>
+
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="jLabel10.text"/>
@@ -727,6 +728,7 @@
                 <Property name="name" type="java.lang.String" value="timeLabel" noResource="true"/>
               </Properties>
             </Component>
+
             <Container class="javax.swing.JTabbedPane" name="mappingTabbedPane">
               <Properties>
                 <Property name="name" type="java.lang.String" value="Custom" noResource="true"/>
@@ -739,6 +741,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
+
                 <Component class="com.t_oster.visicut.gui.mapping.MappingPanel" name="mappingPanel">
                   <Properties>
                     <Property name="name" type="java.lang.String" value="mappingPanel" noResource="true"/>
@@ -751,6 +754,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+
                 <Component class="com.t_oster.uicomponents.PositionPanel" name="positionPanel">
                   <Properties>
                     <Property name="name" type="java.lang.String" value="positionPanel" noResource="true"/>
@@ -763,6 +767,20 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+
+                <Component class="com.t_oster.uicomponents.LaserBedPanel" name="laserBedPanel">
+                  <Properties>
+                    <Property name="name" type="java.lang.String" value="laserBedPanel" noResource="true"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                      <JTabbedPaneConstraints tabName="Laser Bed">
+                        <Property name="tabTitle" type="java.lang.String" resourceKey="laserBedPanel.TabConstraints.tabTitle"/>
+                      </JTabbedPaneConstraints>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+
                 <Container class="javax.swing.JScrollPane" name="propertyPanelContainer">
                   <Properties>
                     <Property name="name" type="java.lang.String" value="propertyPanelContainer" noResource="true"/>
@@ -790,6 +808,7 @@
                 </Container>
               </SubComponents>
             </Container>
+
             <Component class="javax.swing.JButton" name="btAddMaterial">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">

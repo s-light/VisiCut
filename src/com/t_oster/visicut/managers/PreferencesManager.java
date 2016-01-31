@@ -139,7 +139,7 @@ public final class PreferencesManager
       ProfileManager.getInstance().add(cut);
       VectorProfile mark = new VectorProfile();
       mark.setName("mark");
-      mark.setDescription("Cut through the material");
+      mark.setDescription("Cut into the material");
       mark.setIsCut(true);
       mark.setWidth(1f);
       ProfileManager.getInstance().add(mark);
