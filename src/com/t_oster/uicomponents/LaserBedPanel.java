@@ -38,89 +38,30 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
   public LaserBedPanel()
   {
     initComponents();
-    tfX.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
-    tfY.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
-    tfWidth.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
-    tfHeight.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
-    tfAngle.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
+    tfFocus.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
+    tfPower.addPropertyChangeListener(UnitTextfield.PROP_VALUE, this);
   }
 
   private boolean ignoreTextfieldUpdates = false;
   public void propertyChange(PropertyChangeEvent pce)
   {
-    if (pce.getSource().equals(tfAngle))
+    System.out.println("LaserBedPanel propertyChangeEvent seen:" + pce);
+    if (!ignoreTextfieldUpdates)
     {
-      double oldAngle = this.angle;
-      this.angle = tfAngle.getValue();
-      firePropertyChange(PROP_ANGLE, oldAngle, angle);
-    }
-    else if (!ignoreTextfieldUpdates)
-    {
-      if (cbProportional.isSelected())
-      {
-        ignoreTextfieldUpdates = true;
-        if (this.rectangle.getWidth() != 0 || this.getRectangle().getHeight() != 0)
-        {
-          double whfactor = this.rectangle.getHeight()/this.rectangle.getWidth();
-          if (pce.getSource().equals(tfWidth))
-          {
-            tfHeight.setValue(tfWidth.getValue()*whfactor);
-          }
-          else if (pce.getSource().equals(tfHeight))
-          {
-            tfWidth.setValue(tfHeight.getValue()/whfactor);
-          }
-        }
-        ignoreTextfieldUpdates = false;
-      }
       Rectangle2D oldRectangle = this.rectangle;
       this.rectangle = this.getRectangleFromTextfields();
       firePropertyChange(PROP_RECTANGLE, oldRectangle, this.rectangle);
     }
   }
 
-  private double angle = 0;
-  public static final String PROP_ANGLE = "angle";
-
-  /**
-   * Get the value of angle
-   *
-   * @return the value of angle
-   */
-  public double getAngle()
-  {
-    return angle;
-  }
-
-  private void updateAngleText()
-  {
-    this.tfAngle.setValue(this.angle);
-  }
-
   private void updateRectanlgeText()
   {
     this.ignoreTextfieldUpdates = true;
-    tfWidth.setValue(this.rectangle.getWidth());
-    tfHeight.setValue(this.rectangle.getHeight());
+    // tf_Width.setValue(this.rectangle.getWidth());
     updateXYText();
     this.ignoreTextfieldUpdates = false;
   }
 
-  /**
-   * Set the value of angle
-   *
-   * @param angle new value of angle
-   */
-  public void setAngle(double angle)
-  {
-    double oldAngle = this.angle;
-    if (oldAngle != angle)
-    {
-      this.angle = checkNaN(angle);
-      this.updateAngleText();
-      firePropertyChange(PROP_ANGLE, oldAngle, angle);
-    }
-  }
 
   private Rectangle2D rectangle = null;
   public static final String PROP_RECTANGLE = "rectangle";
@@ -137,7 +78,8 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
 
   private void updateXYText()
   {
-    AncorPointPanel.Position p = this.ancorPointPanel1.getPosition();
+    AncorPointPanel.Position p = this.ancorPointPanelBed.getPosition();
+    System.out.println("LaserBedPanel updateXYText seen: position " + p);
     double x,y;
     if (this.rectangle == null)
     {
@@ -192,8 +134,8 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
     }
     boolean oldIgnoreTextfieldUpdates = ignoreTextfieldUpdates;
     ignoreTextfieldUpdates = true;
-    tfX.setValue(checkNaN(x));
-    tfY.setValue(checkNaN(y));
+    tfFocus.setValue(checkNaN(x));
+    tfPower.setValue(checkNaN(y));
     ignoreTextfieldUpdates = oldIgnoreTextfieldUpdates;
   }
 
@@ -212,11 +154,11 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
   {
     try
     {
-      double w = tfWidth.getValue();
-      double h = tfHeight.getValue();
-      double x = tfX.getValue();
-      double y = tfY.getValue();
-      switch (this.ancorPointPanel1.getPosition())
+      double w = 0;	// dummy tf_Width.getValue();
+      double h = 0;	// dummy
+      double x = tfFocus.getValue();
+      double y = tfPower.getValue();
+      switch (this.ancorPointPanelBed.getPosition())
       {
         case TOP_LEFT:
           break;
@@ -285,82 +227,69 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents()
   {
-
-    lbY1 = new java.awt.Label();
-    lbX1 = new java.awt.Label();
-    lbY2 = new java.awt.Label();
-    jPanel1 = new javax.swing.JPanel();
-    lbX = new java.awt.Label();
-    lbY = new java.awt.Label();
-    ancorPointPanel1 = new com.t_oster.uicomponents.AncorPointPanel();
-    tfX = new com.t_oster.uicomponents.LengthTextfield();
-    tfY = new com.t_oster.uicomponents.LengthTextfield();
-    tfHeight = new com.t_oster.uicomponents.LengthTextfield();
-    tfAngle = new com.t_oster.uicomponents.AngleTextfield();
-    tfWidth = new com.t_oster.uicomponents.LengthTextfield();
-    cbProportional = new javax.swing.JCheckBox();
+    jPanelBed = new javax.swing.JPanel();
+    lbFocus = new java.awt.Label();
+    lbPower = new java.awt.Label();
+    ancorPointPanelBed = new com.t_oster.uicomponents.AncorPointPanel();
+    tfFocus = new com.t_oster.uicomponents.LengthTextfield();
+    tfPower = new com.t_oster.uicomponents.PercentTextfield();
 
     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/t_oster/uicomponents/resources/LaserBedPanel"); // NOI18N
-    lbY1.setText(bundle.getString("HEIGHT")); // NOI18N
 
-    lbX1.setText(bundle.getString("WIDTH")); // NOI18N
 
-    lbY2.setText(bundle.getString("ANGLE")); // NOI18N
 
-    jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("REFERENCE"))); // NOI18N
+    jPanelBed.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("REFERENCE"))); // NOI18N
 
-    lbX.setText(bundle.getString("X")); // NOI18N
+    lbFocus.setText(bundle.getString("FOCUS")); // NOI18N
 
-    lbY.setText(bundle.getString("Y")); // NOI18N
+    lbPower.setText(bundle.getString("POWER")); // NOI18N
 
-    ancorPointPanel1.addPropertyChangeListener(new java.beans.PropertyChangeListener()
+    ancorPointPanelBed.addPropertyChangeListener(new java.beans.PropertyChangeListener()
     {
       public void propertyChange(java.beans.PropertyChangeEvent evt)
       {
-        ancorPointPanel1PropertyChange(evt);
+        ancorPointPanelBedPropertyChange(evt);
       }
     });
 
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel1Layout.createSequentialGroup()
-        .addComponent(ancorPointPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    javax.swing.GroupLayout jPanelBedLayout = new javax.swing.GroupLayout(jPanelBed);
+    jPanelBed.setLayout(jPanelBedLayout);
+    jPanelBedLayout.setHorizontalGroup(
+      jPanelBedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(jPanelBedLayout.createSequentialGroup()
+        .addComponent(ancorPointPanelBed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(lbX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(jPanelBedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(jPanelBedLayout.createSequentialGroup()
+            .addComponent(lbFocus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(tfX, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
-          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(lbY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(tfFocus, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
+          .addGroup(jPanelBedLayout.createSequentialGroup()
+            .addComponent(lbPower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(tfY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(tfPower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         .addContainerGap())
     );
-    jPanel1Layout.setVerticalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel1Layout.createSequentialGroup()
-        .addComponent(ancorPointPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    jPanelBedLayout.setVerticalGroup(
+      jPanelBedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(jPanelBedLayout.createSequentialGroup()
+        .addComponent(ancorPointPanelBed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addGap(0, 21, Short.MAX_VALUE))
-      .addGroup(jPanel1Layout.createSequentialGroup()
+      .addGroup(jPanelBedLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-          .addComponent(lbX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(tfX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(jPanelBedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+          .addComponent(lbFocus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGroup(jPanelBedLayout.createSequentialGroup()
+            .addComponent(tfFocus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(1, 1, 1)))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(lbY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addGroup(jPanel1Layout.createSequentialGroup()
+        .addGroup(jPanelBedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(lbPower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGroup(jPanelBedLayout.createSequentialGroup()
             .addGap(1, 1, 1)
-            .addComponent(tfY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(tfPower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
-
-    cbProportional.setText(bundle.getString("PROPORTIONAL")); // NOI18N
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -369,68 +298,54 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(jPanelBed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(lbY1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(lbX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(lbY2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+		)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(tfAngle, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                  .addComponent(tfHeight, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(tfWidth, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+			)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbProportional)))))
+		))))
         .addContainerGap(25, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(jPanelBed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(lbX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(tfWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+	    	)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(lbY1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(tfHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+	    	))
           .addGroup(layout.createSequentialGroup()
             .addGap(23, 23, 23)
-            .addComponent(cbProportional)))
+	    ))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(lbY2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(tfAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+		)
         .addContainerGap(74, Short.MAX_VALUE))
     );
   }// </editor-fold>//GEN-END:initComponents
 
-  private void ancorPointPanel1PropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_ancorPointPanel1PropertyChange
-  {//GEN-HEADEREND:event_ancorPointPanel1PropertyChange
+  private void ancorPointPanelBedPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_ancorPointPanelBedPropertyChange
+  {//GEN-HEADEREND:event_ancorPointPanelBedPropertyChange
     this.updateXYText();
-  }//GEN-LAST:event_ancorPointPanel1PropertyChange
+  }//GEN-LAST:event_ancorPointPanelBedPropertyChange
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private com.t_oster.uicomponents.AncorPointPanel ancorPointPanel1;
-  private javax.swing.JCheckBox cbProportional;
-  private javax.swing.JPanel jPanel1;
-  private java.awt.Label lbX;
-  private java.awt.Label lbX1;
-  private java.awt.Label lbY;
-  private java.awt.Label lbY1;
-  private java.awt.Label lbY2;
-  private com.t_oster.uicomponents.AngleTextfield tfAngle;
-  private com.t_oster.uicomponents.LengthTextfield tfHeight;
-  private com.t_oster.uicomponents.LengthTextfield tfWidth;
-  private com.t_oster.uicomponents.LengthTextfield tfX;
-  private com.t_oster.uicomponents.LengthTextfield tfY;
+  private com.t_oster.uicomponents.AncorPointPanel ancorPointPanelBed;
+  private javax.swing.JPanel jPanelBed;
+  private java.awt.Label lbFocus;
+  private java.awt.Label lbPower;
+  private com.t_oster.uicomponents.LengthTextfield tfFocus;
+  private com.t_oster.uicomponents.PercentTextfield tfPower;
   // End of variables declaration//GEN-END:variables
 
 }
