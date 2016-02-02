@@ -63,6 +63,9 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
   }
 
 
+  private double[] focus_3x3 = new double[]{ -1, 0, 1, 1, 2, 3, 3, 4, 5 };
+  private double[] power_3x3 = new double[]{ .10, .11, .12, .13, .14, .15, .16, .17, .18 };
+
   private Rectangle2D rectangle = null;
   public static final String PROP_RECTANGLE = "rectangle";
 
@@ -78,64 +81,56 @@ public class LaserBedPanel extends javax.swing.JPanel implements PropertyChangeL
 
   private void updateXYText()
   {
-    AncorPointPanel.Position p = this.ancorPointPanelBed.getPosition();
-    System.out.println("LaserBedPanel updateXYText seen: position " + p);
-    double x,y;
-    if (this.rectangle == null)
-    {
-     x = 0;
-     y = 0;
-    }
-    else
-    {
-      switch (p)
+    AncorPointPanel.Position where = this.ancorPointPanelBed.getPosition();
+    System.out.println("LaserBedPanel updateXYText seen: position " + where);
+    double f,p;
+    switch (where)
       {
-        case TOP_LEFT:
-          x = this.rectangle.getMinX();
-          y = this.rectangle.getMinY();
-          break;
-        case TOP_CENTER:
-          x = this.rectangle.getWidth() != 0 ? this.rectangle.getCenterX() : this.rectangle.getMinX();
-          y = this.rectangle.getMinY();
-          break;
-        case TOP_RIGHT:
-          x = this.rectangle.getMaxX();
-          y = this.rectangle.getMinY();
-          break;
-        case CENTER_LEFT:
-          x = this.rectangle.getMinX();
-          y = this.rectangle.getHeight() != 0 ? this.rectangle.getCenterY() : this.rectangle.getMinY();
-          break;
-        case CENTER_CENTER:
-          x = this.rectangle.getWidth() != 0 ? this.rectangle.getCenterX() : this.rectangle.getMinX();
-          y = this.rectangle.getHeight() != 0 ? this.rectangle.getCenterY() : this.rectangle.getMinY();
-          break;
-        case CENTER_RIGHT:
-          x = this.rectangle.getMaxX();
-          y = this.rectangle.getHeight() != 0 ? this.rectangle.getCenterY() : this.rectangle.getMinY();
-          break;
-          case BOTTOM_LEFT:
-          x = this.rectangle.getMinX();
-          y = this.rectangle.getMaxY();
-          break;
-        case BOTTOM_CENTER:
-          x = this.rectangle.getWidth() != 0 ? this.rectangle.getCenterX() : this.rectangle.getMinX();
-          y = this.rectangle.getMaxY();
-          break;
-        case BOTTOM_RIGHT:
-          x = this.rectangle.getMaxX();
-          y = this.rectangle.getMaxY();
-          break;
-        default:
-          x = 0;
-          y = 0;
-          break;
+	case TOP_LEFT:
+	  f = this.focus_3x3[0];
+	  p = this.power_3x3[0];
+	  break;
+	case TOP_CENTER:
+	  f = this.focus_3x3[1];
+	  p = this.power_3x3[1];
+	  break;
+	case TOP_RIGHT:
+	  f = this.focus_3x3[2];
+	  p = this.power_3x3[2];
+	  break;
+	case CENTER_LEFT:
+	  f = this.focus_3x3[3];
+	  p = this.power_3x3[3];
+	  break;
+	case CENTER_CENTER:
+	  f = this.focus_3x3[4];
+	  p = this.power_3x3[4];
+	  break;
+	case CENTER_RIGHT:
+	  f = this.focus_3x3[5];
+	  p = this.power_3x3[5];
+	  break;
+	case BOTTOM_LEFT:
+	  f = this.focus_3x3[6];
+	  p = this.power_3x3[6];
+	  break;
+	case BOTTOM_CENTER:
+	  f = this.focus_3x3[7];
+	  p = this.power_3x3[7];
+	  break;
+	case BOTTOM_RIGHT:
+	  f = this.focus_3x3[8];
+	  p = this.power_3x3[8];
+	  break;
+	default:
+	  f = 0;
+	  p = 0;
+	  break;
       }
-    }
     boolean oldIgnoreTextfieldUpdates = ignoreTextfieldUpdates;
     ignoreTextfieldUpdates = true;
-    tfFocus.setValue(checkNaN(x));
-    tfPower.setValue(checkNaN(y));
+    tfFocus.setValue(checkNaN(f));
+    tfPower.setValue(checkNaN(p));
     ignoreTextfieldUpdates = oldIgnoreTextfieldUpdates;
   }
 
