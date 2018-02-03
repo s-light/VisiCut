@@ -1,10 +1,10 @@
-[![Downloads](https://img.shields.io/github/downloads/fablabnbg/VisiCut/total.svg?maxAge=2592000?style=flat-square)](https://github.com/fablabnbg/VisiCut/releases/latest)
-[![GitHub release](https://img.shields.io/github/release/fablabnbg/VisiCut.svg)](https://github.com/fablabnbg/VisiCut/releases)
-
 VisiCut
 =======
 
-a userfriendy, platform-independent tool for preparing, saving and sending jobs to Lasercutters.
+[![Downloads](https://img.shields.io/github/downloads/fablabnbg/VisiCut/total.svg?maxAge=2592000?style=flat-square)](https://github.com/fablabnbg/VisiCut/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/fablabnbg/VisiCut.svg)](https://github.com/fablabnbg/VisiCut/releases)
+
+A userfriendy, platform-independent tool for preparing, saving and sending jobs to Lasercutters.
 
 For more information please look at the project page at:
 
