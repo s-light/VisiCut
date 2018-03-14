@@ -104,6 +104,7 @@ import java.net.URLClassLoader;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,51 +160,45 @@ public class MainView extends javax.swing.JFrame
     @Override
     public void showWarningMessage(String text)
     {
-      MainView.this.warningPanel.addMessage(new Message("Warning", text, Message.Type.WARNING, null));
+      MainView.this.warningPanel.addMessage(new Message(bundle.getString("WARNING"), text, Message.Type.WARNING, null));
     }
 
     @Override
     public void showWarningMessageOnce(String text, String messageId, int timeout)
     {
       // use timeout=-1 to disable timeout
-      MainView.this.warningPanel.addMessageOnce(new Message("Warning", text, Message.Type.WARNING, null, timeout), messageId);
+      MainView.this.warningPanel.addMessageOnce(new Message(bundle.getString("WARNING"), text, Message.Type.WARNING, null, timeout), messageId);
     }
 
     @Override
     public void showSuccessMessage(String text)
     {
-      MainView.this.warningPanel.addMessage(new Message("Success", text, Message.Type.SUCCESS, null, 10000));
+      MainView.this.warningPanel.addMessage(new Message(bundle.getString("SUCCESS"), text, Message.Type.SUCCESS, null, 10000));
     }
 
     @Override
     public void showInfoMessage(String text)
     {
-      MainView.this.warningPanel.addMessage(new Message("Info", text, Message.Type.INFO, null));
+      MainView.this.warningPanel.addMessage(new Message(bundle.getString("INFO"), text, Message.Type.INFO, null));
     }
 
     @Override
     public void showErrorMessage(Exception ex)
     {
-      Throwable cause = ex;
-      while ((cause.getMessage() == null || "".equals(cause.getMessage())) && cause.getCause() != null)
-      {
-        cause = cause.getCause();
-      }
-      cause.printStackTrace();
-      MainView.this.warningPanel.addMessage(new Message("Error", "Exception: " + cause.getLocalizedMessage(), Message.Type.ERROR, null));
+      this.showErrorMessage(ex, null);
     }
 
     @Override
     public void showErrorMessage(Exception cause, String text)
     {
       cause.printStackTrace();
-      MainView.this.warningPanel.addMessage(new Message("Error", text + ": " + cause.getLocalizedMessage(), Message.Type.ERROR, null));
+      this.showErrorMessage(DialogHelper.getHumanReadableErrorMessage(cause, text));
     }
 
     @Override
     public void showErrorMessage(String text)
     {
-      MainView.this.warningPanel.addMessage(new Message("Error", text, Message.Type.ERROR, null));
+      MainView.this.warningPanel.addMessage(new Message(bundle.getString("ERROR"), text, Message.Type.ERROR, null));
     }
 
     @Override
@@ -1313,7 +1308,7 @@ public class MainView extends javax.swing.JFrame
     });
     fileMenu.add(saveAsMenuItem);
 
-    exportGcodeMenuItem.setText("Export Laser Code..."); // NOI18N
+    exportGcodeMenuItem.setText(resourceMap.getString("exportGcodeMenuItem.text"));
     exportGcodeMenuItem.setName("exportGcodeMenuItem"); // NOI18N
     exportGcodeMenuItem.addActionListener(new java.awt.event.ActionListener()
     {
@@ -2579,18 +2574,7 @@ private void executeJobMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
               }
               catch (Exception e)
               {
-                e.printStackTrace();
-                if (e instanceof java.net.SocketException)
-                {
-                  // Network errors like "port not found" have meaningful error messages
-                  msg = e.getLocalizedMessage();
-                }
-                else
-                {
-                  // Most other exceptions are not easy to understand without the class name
-                  // (e.g. 'java.net.UnknownHostException: foo.example.com')
-                  msg = ex.getClass().getSimpleName() + ": " + ex.getLocalizedMessage();
-                }
+                msg = DialogHelper.getHumanReadableErrorMessage(e);
               }
               if (responseCode != 0)
               {
@@ -2611,7 +2595,7 @@ private void executeJobMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
             }
             else
             {
-              cameraCapturingError = bundle.getString("ERROR CAPTURING PHOTO") + "\nError (" + ex.getClass().getSimpleName() + "): " + ex.getLocalizedMessage();
+              cameraCapturingError = DialogHelper.getHumanReadableErrorMessage(ex, bundle.getString("ERROR CAPTURING PHOTO"));
             }
           }
 
@@ -3407,6 +3391,7 @@ private void jmDownloadSettingsActionPerformed(java.awt.event.ActionEvent evt) {
 
   // Want your lab in this list? Look at https://github.com/t-oster/VisiCut/wiki/How-to-add-default-settings-for-your-lab !
   // choices.put("Country, City: Institution", "https://example.org/foo.zip");
+  choices.put("China, Hong Kong: Renaissance College Hong Kong", "https://github.com/RCHK-DT/visicut-settings/archive/master.zip");
   choices.put("Germany, Aachen: FabLab RWTH Aachen", "https://github.com/renebohne/zing6030-visicut-settings/archive/master.zip");
   choices.put("Germany, Erlangen: FAU FabLab", "https://github.com/fau-fablab/visicut-settings/archive/master.zip");
   if (hostname.endsWith(".fau.de") || hostname.endsWith(".uni-erlangen.de")) {
@@ -3417,6 +3402,7 @@ private void jmDownloadSettingsActionPerformed(java.awt.event.ActionEvent evt) {
   choices.put("Germany, Bremen: FabLab Bremen e.V.", "http://www.fablab-bremen.org/FabLab_Bremen.vcsettings");
   choices.put("Germany, Paderborn: FabLab Paderborn e.V.", "https://github.com/fablab-paderborn/visicut-settings/archive/master.zip");
   choices.put("Germany, Heidelberg: Heidelberg Makerspace", "https://github.com/heidelberg-makerspace/visicut-settings/archive/master.zip");
+  choices.put("France, HAUM: Le Mans Hackerspace", "https://github.com/haum/visicut-settings/archive/master.zip");
   choices.put("Netherlands, Amersfoort: FabLab", "https://github.com/Fablab-Amersfoort/visicut-settings/archive/master.zip");
   choices.put("Netherlands, Enschede: TkkrLab", "https://github.com/TkkrLab/visicut-settings/archive/master.zip");
   choices.put("United Kingdom, Manchester: Hackspace", "https://github.com/hacmanchester/visicut-settings/archive/master.zip");
@@ -3648,6 +3634,8 @@ private void projectorActiveMenuItemActionPerformed(java.awt.event.ActionEvent e
   private Map<LaserProfile, List<LaserProperty>> getPropertyMapForCurrentJob()
   {
     Map<LaserProfile, List<LaserProperty>> result = this.propertiesPanel.getPropertyMap();
+    Map<LaserProfile, Double> newMap = new HashMap<LaserProfile, Double>();
+
     for (LaserProfile lp : result.keySet())
     {
       if (lp == null)//ignore-profile
@@ -3672,12 +3660,15 @@ private void projectorActiveMenuItemActionPerformed(java.awt.event.ActionEvent e
           return null;
         }
         //changing the DPI changes the hash-code, so we have to
-        //remove and re-assign the profile to the map
-        List<LaserProperty> val = result.get(lp);
-        result.remove(lp);
-        lp.setDPI(res);
-        result.put(lp, val);
+        //remove and re-assign the profile to the map after iteration.
+        newMap.put(lp, res);
       }
+    }
+    for (LaserProfile lp : newMap.keySet()) {
+      List<LaserProperty> val = result.get(lp);
+      result.remove(lp);
+      lp.setDPI(newMap.get(lp));
+      result.put(lp, val);
     }
     return result;
   }
