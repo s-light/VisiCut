@@ -132,22 +132,11 @@ public class MappingManager extends FilebasedManager<MappingSet>
     {
       /* make sure all default mappings are in the list */
       String lpName = lp.getName();
-      System.err.println("lp.getName() = "+lpName);
-      if      (lpName == "cut")          { lpName = bundle.getString("PROFILE_CUT"); }
-      else if (lpName == "mark")         { lpName = bundle.getString("PROFILE_MARK"); }
-      else if (lpName == "engrave")      { lpName = bundle.getString("PROFILE_ENGRAVE"); }
-      else if (lpName == "engrave deep") { lpName = bundle.getString("PROFILE_ENGRAVE_DEEP"); }
-      else if (lpName == "engrave 3d")   { lpName = bundle.getString("PROFILE_ENGRAVE_3D"); }
-      System.err.println("      translated to "+lpName);
-
-      /* hardcoded german */
-      /*
-      if      (lpName.equals("cut"))          { lpName = "schneiden"; }
-      else if (lpName.equals("mark"))         { lpName = "markieren"; }
-      else if (lpName.equals("engrave"))      { lpName = "gravieren"; }
-      else if (lpName.equals("engrave deep")) { lpName = "tief gravieren"; }
-      else if (lpName.equals("engrave 3d"))   { lpName = "3d gravieren"; }
-      */
+      if      (lpName.equals("cut"))          { lpName = bundle.getString("PROFILE_CUT"); }
+      else if (lpName.equals("mark"))         { lpName = bundle.getString("PROFILE_MARK"); }
+      else if (lpName.equals("engrave"))      { lpName = bundle.getString("PROFILE_ENGRAVE"); }
+      else if (lpName.equals("engrave deep")) { lpName = bundle.getString("PROFILE_ENGRAVE_DEEP"); }
+      else if (lpName.equals("engrave 3d"))   { lpName = bundle.getString("PROFILE_ENGRAVE_3D"); }
 
       String doEverythingProfileName = doEverything.replace("$profile", lpName);
       if (!profiles.contains(doEverythingProfileName))
