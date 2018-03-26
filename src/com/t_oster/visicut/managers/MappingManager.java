@@ -111,6 +111,11 @@ public class MappingManager extends FilebasedManager<MappingSet>
       {
 	public int compare(LaserProfile p1, LaserProfile p2)
 	  {
+            /* FIXME: this easily breaks when translations apply.
+             * In e.g. german locale, bundle.getString("EVERYTHING_DO"); returns
+             * the word order reversed, resulting in names like "alles cut" instead
+             * of "cut everything"
+             */
 	    if (p1.getName().toLowerCase().startsWith("cut") !=  p2.getName().toLowerCase().startsWith("cut"))
 	      {
 	        if (p1.getName().toLowerCase().startsWith("cut")) { return -1; } else { return 1; }
@@ -125,12 +130,32 @@ public class MappingManager extends FilebasedManager<MappingSet>
 
     for (LaserProfile lp : lp_all)
     {
-      if (!profiles.contains(lp.getName()))
+      /* make sure all default mappings are in the list */
+      String lpName = lp.getName();
+      System.err.println("lp.getName() = "+lpName);
+      if      (lpName == "cut")          { lpName = bundle.getString("PROFILE_CUT"); }
+      else if (lpName == "mark")         { lpName = bundle.getString("PROFILE_MARK"); }
+      else if (lpName == "engrave")      { lpName = bundle.getString("PROFILE_ENGRAVE"); }
+      else if (lpName == "engrave deep") { lpName = bundle.getString("PROFILE_ENGRAVE_DEEP"); }
+      else if (lpName == "engrave 3d")   { lpName = bundle.getString("PROFILE_ENGRAVE_3D"); }
+      System.err.println("      translated to "+lpName);
+
+      /* hardcoded german */
+      /*
+      if      (lpName.equals("cut"))          { lpName = "schneiden"; }
+      else if (lpName.equals("mark"))         { lpName = "markieren"; }
+      else if (lpName.equals("engrave"))      { lpName = "gravieren"; }
+      else if (lpName.equals("engrave deep")) { lpName = "tief gravieren"; }
+      else if (lpName.equals("engrave 3d"))   { lpName = "3d gravieren"; }
+      */
+
+      String doEverythingProfileName = doEverything.replace("$profile", lpName);
+      if (!profiles.contains(doEverythingProfileName))
       {
         profiles.add(lp.getName());
         MappingSet set = new MappingSet();
         set.add(new Mapping(new FilterSet(), lp));
-        set.setName(doEverything.replace("$profile", lp.getName()));
+        set.setName(doEverythingProfileName);
         set.setDescription("An auto-generated mapping");
         result.add(set);
       }
@@ -170,7 +195,7 @@ public class MappingManager extends FilebasedManager<MappingSet>
   {
     return comp;
   }
- 
+
     /**
    * Find a mapping with the given name
    * @param name
