@@ -808,7 +808,7 @@ public class MainView extends javax.swing.JFrame
     );
     previewPanelLayout.setVerticalGroup(
       previewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 734, Short.MAX_VALUE)
+      .addGap(0, 566, Short.MAX_VALUE)
     );
 
     jScrollPane2.setViewportView(previewPanel);
@@ -817,7 +817,6 @@ public class MainView extends javax.swing.JFrame
     jScrollPane1.setName("jScrollPane1"); // NOI18N
 
     jPanel2.setName("jPanel2"); // NOI18N
-    jPanel2.setPreferredSize(new java.awt.Dimension(583, 754));
 
     jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
     jLabel1.setName("jLabel1"); // NOI18N
@@ -953,12 +952,10 @@ public class MainView extends javax.swing.JFrame
     });
 
     jScrollPane3.setName("jScrollPane3"); // NOI18N
-    jScrollPane3.setPreferredSize(new java.awt.Dimension(551, 405));
 
     jPanel4.setName("jPanel4"); // NOI18N
 
     mappingTabbedPane.setName("Custom"); // NOI18N
-    mappingTabbedPane.setPreferredSize(new java.awt.Dimension(417, 401));
 
     mappingPanel.setName("mappingPanel"); // NOI18N
     mappingTabbedPane.addTab(resourceMap.getString("mappingPanel.TabConstraints.tabTitle"), mappingPanel); // NOI18N
@@ -991,7 +988,7 @@ public class MainView extends javax.swing.JFrame
       .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel4Layout.createSequentialGroup()
           .addContainerGap()
-          .addComponent(mappingTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
+          .addComponent(mappingTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
     );
 
@@ -1052,7 +1049,7 @@ public class MainView extends javax.swing.JFrame
                   .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
                   .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(0, 0, Short.MAX_VALUE))
-              .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+              .addComponent(jScrollPane3))
             .addGap(20, 20, 20))))
     );
     jPanel2Layout.setVerticalGroup(
@@ -1087,18 +1084,18 @@ public class MainView extends javax.swing.JFrame
             .addComponent(objectComboBox)
             .addComponent(jLabel2)))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addGap(18, 18, 18)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(48, 48, 48)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(jLabel10)
           .addComponent(calculateTimeButton))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(jLabelJobName)
           .addComponent(jTextFieldJobName)
           .addComponent(executeJobButton))
-        .addGap(33, 33, 33))
+        .addContainerGap())
     );
 
     jScrollPane1.setViewportView(jPanel2);
@@ -1311,7 +1308,7 @@ public class MainView extends javax.swing.JFrame
     });
     fileMenu.add(saveAsMenuItem);
 
-    exportGcodeMenuItem.setText("Export Laser Code..."); // NOI18N
+    exportGcodeMenuItem.setText(resourceMap.getString("exportGcodeMenuItem.text"));
     exportGcodeMenuItem.setName("exportGcodeMenuItem"); // NOI18N
     exportGcodeMenuItem.addActionListener(new java.awt.event.ActionListener()
     {
@@ -1692,9 +1689,9 @@ public class MainView extends javax.swing.JFrame
               .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(8, 8, 8)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(warningPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(warningPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
             .addContainerGap())))
     );
 
@@ -2262,6 +2259,10 @@ private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
   }
 
+private void executeJobButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeJobButtonActionPerformed
+  this.executeJob();
+}//GEN-LAST:event_executeJobButtonActionPerformed
+
 private void filesDropSupport1PropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_filesDropSupport1PropertyChange
 {//GEN-HEADEREND:event_filesDropSupport1PropertyChange
   if (this.filesDropSupport1.getDroppedFiles() != null && this.filesDropSupport1.getDroppedFiles().size() > 0)
@@ -2639,6 +2640,19 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
   }
 }//GEN-LAST:event_editMappingMenuItemActionPerformed
   private boolean ignoreMaterialComboBoxChanges = false;
+private void materialComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materialComboBoxActionPerformed
+  if (ignoreMaterialComboBoxChanges)
+  {
+    return;
+  }
+  MaterialProfile newMaterial = this.materialComboBox.getSelectedItem() instanceof MaterialProfile ? (MaterialProfile) this.materialComboBox.getSelectedItem() : null;
+  if (!Util.differ(newMaterial, visicutModel1.getMaterial()))
+  {
+    return;
+  }
+  this.visicutModel1.setMaterial(newMaterial);
+}//GEN-LAST:event_materialComboBoxActionPerformed
+
   private void materialMenuItemActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_materialMenuItemActionPerformed
   {//GEN-HEADEREND:event_materialMenuItemActionPerformed
     EditMaterialsDialog d = new EditMaterialsDialog(this, true);
@@ -2661,6 +2675,27 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
 
     }
   }//GEN-LAST:event_materialMenuItemActionPerformed
+
+  private void laserCutterComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_laserCutterComboBoxActionPerformed
+  {//GEN-HEADEREND:event_laserCutterComboBoxActionPerformed
+    if (!ignoreLaserCutterComboBoxUpdates)
+    {
+      LaserDevice newDev = laserCutterComboBox.getSelectedItem() instanceof LaserDevice ? (LaserDevice) laserCutterComboBox.getSelectedItem() : null;
+      if (!Util.differ(newDev, visicutModel1.getSelectedLaserDevice()))
+      {
+        return;
+      }
+      this.visicutModel1.setSelectedLaserDevice(newDev);
+      if (this.visicutModel1.getSelectedLaserDevice() == null || this.visicutModel1.getSelectedLaserDevice().getCameraURL() == null || "".equals(this.visicutModel1.getSelectedLaserDevice().getCameraURL()))
+      {
+        this.visicutModel1.setBackgroundImage(null);
+      }
+
+      this.refreshButtonStates(VisicutModel.PROP_SELECTEDLASERDEVICE);
+      //if the image is too big, fit it and notify the user
+      this.fitObjectsIntoBed();
+    }
+  }//GEN-LAST:event_laserCutterComboBoxActionPerformed
 
   private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem2ActionPerformed
   {//GEN-HEADEREND:event_jMenuItem2ActionPerformed
@@ -2701,6 +2736,31 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
       this.refreshButtonStates(VisicutModel.PROP_SELECTEDLASERDEVICE);
     }
   }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+  private void calculateTimeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calculateTimeButtonActionPerformed
+  {//GEN-HEADEREND:event_calculateTimeButtonActionPerformed
+    new Thread()
+    {
+
+      @Override
+      public void run()
+      {
+        try
+        {
+          MainView.this.calculateTimeButton.setEnabled(false);
+          MainView.this.timeLabel.setText("...");
+          MainView.this.timeLabel.setText(Helper.toHHMMSS(MainView.this.visicutModel1.estimateTime(MainView.this.getPropertyMapForCurrentJob())));
+          MainView.this.calculateTimeButton.setEnabled(true);
+        }
+        catch (Exception ex)
+        {
+          dialog.showErrorMessage(ex);
+          MainView.this.timeLabel.setText("error");
+          MainView.this.calculateTimeButton.setEnabled(true);
+        }
+      }
+    }.start();
+  }//GEN-LAST:event_calculateTimeButtonActionPerformed
 
   private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
   {//GEN-HEADEREND:event_jButton1ActionPerformed
@@ -2878,6 +2938,71 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
     }
   }//GEN-LAST:event_jmManageLaserprofilesActionPerformed
 
+  private void btAddMaterialActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddMaterialActionPerformed
+  {//GEN-HEADEREND:event_btAddMaterialActionPerformed
+    CreateNewMaterialDialog cd = new CreateNewMaterialDialog(this, true);
+    cd.setVisible(true);
+    if (!cd.isOkClicked())
+    {//user pressed cancel
+      return;
+    }
+    MaterialProfile m;
+    MaterialProfile om = cd.getSelectedProfile();
+    if (om != null)
+    {//we're using an existing material profile
+      m = om.clone();
+      //create only the selected thicknesses
+      m.setMaterialThicknesses(cd.getSelectedThicknesses());
+      m.setName(m.getName() + " 2");
+    }
+    else
+    {//create from scratch
+      m = new MaterialProfile();
+    }
+    EditMaterialDialog d = new EditMaterialDialog(this, true);
+    d.setMaterial(m);
+    d.setVisible(true);
+    m = d.getMaterial();
+    if (m != null)
+    {
+      try
+      {
+        MaterialManager.getInstance().add(m);
+        if (om != null)
+        {//we were cloning, so copy all lasercutter settings for the selected thicknesses
+          for (Float f : cd.getSelectedThicknesses())
+          {
+            if (m.getMaterialThicknesses().contains(f))
+            {
+              for (LaserDevice ld : LaserDeviceManager.getInstance().getAll())
+              {
+                for (LaserProfile lp : ProfileManager.getInstance().getAll())
+                {
+                  List<LaserProperty> props = LaserPropertyManager.getInstance().getLaserProperties(ld, om, lp, f);
+                  if (props != null)
+                  {
+                    List<LaserProperty> clones = new LinkedList<LaserProperty>();
+                    for (LaserProperty p : props)
+                    {
+                      clones.add(p.clone());
+                    }
+                    LaserPropertyManager.getInstance().saveLaserProperties(ld, m, lp, f, clones);
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.refreshMaterialComboBox();
+        this.materialComboBox.setSelectedItem(m);
+      }
+      catch (Exception ex)
+      {
+        dialog.showErrorMessage(ex);
+      }
+    }
+  }//GEN-LAST:event_btAddMaterialActionPerformed
+
   private void jmInstallInkscapeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jmInstallInkscapeActionPerformed
   {//GEN-HEADEREND:event_jmInstallInkscapeActionPerformed
     try
@@ -2903,6 +3028,72 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
       dialog.showErrorMessage(e, bundle.getString("THERE WAS AN ERROR DURING THE INSTALLATION"));
     }
   }//GEN-LAST:event_jmInstallIllustratorActionPerformed
+private void btAddMaterialThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddMaterialThicknessActionPerformed
+  MaterialProfile m = VisicutModel.getInstance().getMaterial();
+  if (m != null)
+  {
+    CreateNewThicknessDialog d = new CreateNewThicknessDialog(this, true);
+    d.setAvailableThicknesses(m.getMaterialThicknesses());
+    d.setVisible(true);
+    if (!d.isOkClicked())
+    {
+      return;
+    }
+    Float f = d.getSelectedNewThickness();
+    List<Float> th = m.getMaterialThicknesses();
+    if (th.contains(f))
+    {
+      return;
+    }
+    th.add(f);
+    Collections.sort(th);
+    try
+    {
+      MaterialManager.getInstance().save(m);
+    }
+    catch (Exception ex)
+    {
+      dialog.showErrorMessage(ex, "Could not save material thickness");
+    }
+    Float copyThickness = d.getSelectedCopyThickness();
+    if (copyThickness != null)
+    {
+      for (LaserDevice ld : LaserDeviceManager.getInstance().getAll())
+      {
+        for (LaserProfile lp : ProfileManager.getInstance().getAll())
+        {
+          try
+          {
+            List<LaserProperty> props = LaserPropertyManager.getInstance().getLaserProperties(ld, m, lp, f);
+            if (props != null)
+            {
+              List<LaserProperty> clones = new LinkedList<LaserProperty>();
+              for (LaserProperty p : props)
+              {
+                clones.add(p.clone());
+              }
+              LaserPropertyManager.getInstance().saveLaserProperties(ld, m, lp, f, clones);
+            }
+          }
+          catch (Exception ex)
+          {
+            dialog.showErrorMessage(ex, "Could not copy material thickness");
+          }
+        }
+      }
+    }
+    this.refreshMaterialThicknessesComboBox();
+    this.cbMaterialThickness.setSelectedItem(f);
+  }
+}//GEN-LAST:event_btAddMaterialThicknessActionPerformed
+
+private void cbMaterialThicknessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMaterialThicknessActionPerformed
+  Float f = (Float) this.cbMaterialThickness.getSelectedItem();
+  if (f != null)
+  {
+    this.visicutModel1.setMaterialThickness(f);
+  }
+}//GEN-LAST:event_cbMaterialThicknessActionPerformed
 
   private void btFitScreenActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btFitScreenActionPerformed
   {//GEN-HEADEREND:event_btFitScreenActionPerformed
@@ -2917,7 +3108,34 @@ private void editMappingMenuItemActionPerformed(java.awt.event.ActionEvent evt) 
 private void importMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importMenuItemActionPerformed
   this.openFileDialog(false);
 }//GEN-LAST:event_importMenuItemActionPerformed
+
+private void btRemoveObjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoveObjectActionPerformed
+  VisicutModel.getInstance().removeSelectedPart();
+}//GEN-LAST:event_btRemoveObjectActionPerformed
+
+private void btAddObjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddObjectActionPerformed
+  importMenuItemActionPerformed(evt);
+}//GEN-LAST:event_btAddObjectActionPerformed
   private boolean ignoreObjectComboBoxEvents = false;
+private void objectComboBoxChangeHandler(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_objectComboBoxChangeHandler
+  if (ignoreObjectComboBoxEvents || !(this.objectComboBox.getSelectedItem() instanceof PlfPart))
+  {
+    // the user selected the "please select something" item - ignore this
+    return;
+  }
+  PlfPart selected = (PlfPart) this.objectComboBox.getSelectedItem();
+  if (!VisicutModel.getInstance().getPlfFile().contains(selected))
+  {
+    // not available - can this happen? maybe if a strange timing occurs while loading a file and changing the combobox
+    return;
+  }
+  if (evt.getStateChange() != java.awt.event.ItemEvent.SELECTED)
+  {
+    return;
+  }
+  VisicutModel.getInstance().setSelectedPart(selected);
+}//GEN-LAST:event_objectComboBoxChangeHandler
+
 private void jmPreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmPreferencesActionPerformed
   PreferencesDialog pd = new PreferencesDialog(this, true);
   pd.setLocationRelativeTo(null);
@@ -3283,236 +3501,6 @@ private void projectorActiveMenuItemActionPerformed(java.awt.event.ActionEvent e
     qrWebcamScanDialog.setLocationRelativeTo(null);
     qrWebcamScanDialog.setVisible(true);
   }//GEN-LAST:event_webcamQRCodeMenuItemActionPerformed
-
-  private void btAddObjectActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddObjectActionPerformed
-  {//GEN-HEADEREND:event_btAddObjectActionPerformed
-    importMenuItemActionPerformed(evt);
-  }//GEN-LAST:event_btAddObjectActionPerformed
-
-  private void btRemoveObjectActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btRemoveObjectActionPerformed
-  {//GEN-HEADEREND:event_btRemoveObjectActionPerformed
-    VisicutModel.getInstance().removeSelectedPart();
-  }//GEN-LAST:event_btRemoveObjectActionPerformed
-
-  private void objectComboBoxChangeHandler(java.awt.event.ItemEvent evt)//GEN-FIRST:event_objectComboBoxChangeHandler
-  {//GEN-HEADEREND:event_objectComboBoxChangeHandler
-    if (ignoreObjectComboBoxEvents || !(this.objectComboBox.getSelectedItem() instanceof PlfPart))
-    {
-      // the user selected the "please select something" item - ignore this
-      return;
-    }
-    PlfPart selected = (PlfPart) this.objectComboBox.getSelectedItem();
-    if (!VisicutModel.getInstance().getPlfFile().contains(selected))
-    {
-      // not available - can this happen? maybe if a strange timing occurs while loading a file and changing the combobox
-      return;
-    }
-    if (evt.getStateChange() != java.awt.event.ItemEvent.SELECTED)
-    {
-      return;
-    }
-    VisicutModel.getInstance().setSelectedPart(selected);
-  }//GEN-LAST:event_objectComboBoxChangeHandler
-
-  private void executeJobButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_executeJobButtonActionPerformed
-  {//GEN-HEADEREND:event_executeJobButtonActionPerformed
-    this.executeJob();
-  }//GEN-LAST:event_executeJobButtonActionPerformed
-
-  private void btAddMaterialThicknessActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddMaterialThicknessActionPerformed
-  {//GEN-HEADEREND:event_btAddMaterialThicknessActionPerformed
-    MaterialProfile m = VisicutModel.getInstance().getMaterial();
-    if (m != null)
-    {
-      CreateNewThicknessDialog d = new CreateNewThicknessDialog(this, true);
-      d.setAvailableThicknesses(m.getMaterialThicknesses());
-      d.setVisible(true);
-      if (!d.isOkClicked())
-      {
-        return;
-      }
-      Float f = d.getSelectedNewThickness();
-      List<Float> th = m.getMaterialThicknesses();
-      if (th.contains(f))
-      {
-        return;
-      }
-      th.add(f);
-      Collections.sort(th);
-      try
-      {
-        MaterialManager.getInstance().save(m);
-      }
-      catch (Exception ex)
-      {
-        dialog.showErrorMessage(ex, "Could not save material thickness");
-      }
-      Float copyThickness = d.getSelectedCopyThickness();
-      if (copyThickness != null)
-      {
-        for (LaserDevice ld : LaserDeviceManager.getInstance().getAll())
-        {
-          for (LaserProfile lp : ProfileManager.getInstance().getAll())
-          {
-            try
-            {
-              List<LaserProperty> props = LaserPropertyManager.getInstance().getLaserProperties(ld, m, lp, f);
-              if (props != null)
-              {
-                List<LaserProperty> clones = new LinkedList<LaserProperty>();
-                for (LaserProperty p : props)
-                {
-                  clones.add(p.clone());
-                }
-                LaserPropertyManager.getInstance().saveLaserProperties(ld, m, lp, f, clones);
-              }
-            }
-            catch (Exception ex)
-            {
-              dialog.showErrorMessage(ex, "Could not copy material thickness");
-            }
-          }
-        }
-      }
-      this.refreshMaterialThicknessesComboBox();
-      this.cbMaterialThickness.setSelectedItem(f);
-    }
-  }//GEN-LAST:event_btAddMaterialThicknessActionPerformed
-
-  private void cbMaterialThicknessActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cbMaterialThicknessActionPerformed
-  {//GEN-HEADEREND:event_cbMaterialThicknessActionPerformed
-    Float f = (Float) this.cbMaterialThickness.getSelectedItem();
-    if (f != null)
-    {
-      this.visicutModel1.setMaterialThickness(f);
-    }
-  }//GEN-LAST:event_cbMaterialThicknessActionPerformed
-
-  private void btAddMaterialActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddMaterialActionPerformed
-  {//GEN-HEADEREND:event_btAddMaterialActionPerformed
-    CreateNewMaterialDialog cd = new CreateNewMaterialDialog(this, true);
-    cd.setVisible(true);
-    if (!cd.isOkClicked())
-    {//user pressed cancel
-      return;
-    }
-    MaterialProfile m;
-    MaterialProfile om = cd.getSelectedProfile();
-    if (om != null)
-    {//we're using an existing material profile
-      m = om.clone();
-      //create only the selected thicknesses
-      m.setMaterialThicknesses(cd.getSelectedThicknesses());
-      m.setName(m.getName() + " 2");
-    }
-    else
-    {//create from scratch
-      m = new MaterialProfile();
-    }
-    EditMaterialDialog d = new EditMaterialDialog(this, true);
-    d.setMaterial(m);
-    d.setVisible(true);
-    m = d.getMaterial();
-    if (m != null)
-    {
-      try
-      {
-        MaterialManager.getInstance().add(m);
-        if (om != null)
-        {//we were cloning, so copy all lasercutter settings for the selected thicknesses
-          for (Float f : cd.getSelectedThicknesses())
-          {
-            if (m.getMaterialThicknesses().contains(f))
-            {
-              for (LaserDevice ld : LaserDeviceManager.getInstance().getAll())
-              {
-                for (LaserProfile lp : ProfileManager.getInstance().getAll())
-                {
-                  List<LaserProperty> props = LaserPropertyManager.getInstance().getLaserProperties(ld, om, lp, f);
-                  if (props != null)
-                  {
-                    List<LaserProperty> clones = new LinkedList<LaserProperty>();
-                    for (LaserProperty p : props)
-                    {
-                      clones.add(p.clone());
-                    }
-                    LaserPropertyManager.getInstance().saveLaserProperties(ld, m, lp, f, clones);
-                  }
-                }
-              }
-            }
-          }
-        }
-        this.refreshMaterialComboBox();
-        this.materialComboBox.setSelectedItem(m);
-      }
-      catch (Exception ex)
-      {
-        dialog.showErrorMessage(ex);
-      }
-    }
-  }//GEN-LAST:event_btAddMaterialActionPerformed
-
-  private void calculateTimeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calculateTimeButtonActionPerformed
-  {//GEN-HEADEREND:event_calculateTimeButtonActionPerformed
-    new Thread()
-    {
-
-      @Override
-      public void run()
-      {
-        try
-        {
-          MainView.this.calculateTimeButton.setEnabled(false);
-          MainView.this.timeLabel.setText("...");
-          MainView.this.timeLabel.setText(Helper.toHHMMSS(MainView.this.visicutModel1.estimateTime(MainView.this.getPropertyMapForCurrentJob())));
-          MainView.this.calculateTimeButton.setEnabled(true);
-        }
-        catch (Exception ex)
-        {
-          dialog.showErrorMessage(ex);
-          MainView.this.timeLabel.setText("error");
-          MainView.this.calculateTimeButton.setEnabled(true);
-        }
-      }
-    }.start();
-  }//GEN-LAST:event_calculateTimeButtonActionPerformed
-
-  private void laserCutterComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_laserCutterComboBoxActionPerformed
-  {//GEN-HEADEREND:event_laserCutterComboBoxActionPerformed
-    if (!ignoreLaserCutterComboBoxUpdates)
-    {
-      LaserDevice newDev = laserCutterComboBox.getSelectedItem() instanceof LaserDevice ? (LaserDevice) laserCutterComboBox.getSelectedItem() : null;
-      if (!Util.differ(newDev, visicutModel1.getSelectedLaserDevice()))
-      {
-        return;
-      }
-      this.visicutModel1.setSelectedLaserDevice(newDev);
-      if (this.visicutModel1.getSelectedLaserDevice() == null || this.visicutModel1.getSelectedLaserDevice().getCameraURL() == null || "".equals(this.visicutModel1.getSelectedLaserDevice().getCameraURL()))
-      {
-        this.visicutModel1.setBackgroundImage(null);
-      }
-
-      this.refreshButtonStates(VisicutModel.PROP_SELECTEDLASERDEVICE);
-      //if the image is too big, fit it and notify the user
-      this.fitObjectsIntoBed();
-    }
-  }//GEN-LAST:event_laserCutterComboBoxActionPerformed
-
-  private void materialComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_materialComboBoxActionPerformed
-  {//GEN-HEADEREND:event_materialComboBoxActionPerformed
-    if (ignoreMaterialComboBoxChanges)
-    {
-      return;
-    }
-    MaterialProfile newMaterial = this.materialComboBox.getSelectedItem() instanceof MaterialProfile ? (MaterialProfile) this.materialComboBox.getSelectedItem() : null;
-    if (!Util.differ(newMaterial, visicutModel1.getMaterial()))
-    {
-      return;
-    }
-    this.visicutModel1.setMaterial(newMaterial);
-  }//GEN-LAST:event_materialComboBoxActionPerformed
-
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JMenuItem aboutMenuItem;
   private javax.swing.JMenu actionsMenu;
